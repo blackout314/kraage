@@ -1,0 +1,21 @@
+{
+  "name": "blackout314/kraage",
+  "description": "kraage",
+  "minimum-stability": "dev",
+  "license": "AGPL3.0",
+  "authors": [
+    {
+      "name": "Carlo Denaro",
+      "email": "info@soisy.it"
+    }
+  ],
+  "require": {
+    "phpunit/phpunit": "^6.1",
+    "payward/kraken-api-client": "dev-master"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Kraage\\": "src/"
+    }
+  }
+}
