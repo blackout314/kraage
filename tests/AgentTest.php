@@ -8,8 +8,18 @@ class AgentTest extends TestCase {
    * @test
    */
   public function createAgent() {
-    $agent = new Agent();
+    $mockKrakenAPI = $this->getMockBuilder('Payward\KrakenAPI')
+      ->setConstructorArgs(['KEY','SEC'])
+      ->getMock();
 
-    $this->assertInstanceOf(\Kraage\Agent::class, $agent);
+    $mockLogs = $this->getMockBuilder('Kraage\Logs')
+      ->setMethods(array('_log'))
+      ->getMock();
+
+    $mockLogs->expects($this->once())
+      ->method('_log');
+
+    $agent = new Agent($mockLogs, $mockKrakenAPI);
   }
+
 }
