@@ -13,8 +13,39 @@ class Agent {
   }
 
   public function getBalance() {
-    return $this->KrakenAPI->QueryPrivate('Balance');
     $this->Logs->_log('Balance');
+    return $this->KrakenAPI->QueryPrivate('Balance');
+  }
+
+  public function getOpenOrders() {
+    $this->Logs->_log('OpenOrders');
+    return $this->KrakenAPI->QueryPrivate('OpenOrders', ['trades' => true]);
+  }
+
+  public function buy($price, $volume) {
+    return $this->KrakenAPI->QueryPrivate('AddOrder', [
+      'pair'      => 'XBTCZEUR',
+      'type'      => 'buy',
+      'ordertype' => 'limit',
+      'price'     => $price, 
+      'volume'    => $volume,
+      'leverage'  => '2:1', 
+      'close' => [
+        'ordertype' => 'stop-loss-profit',
+        'price'     => '#5%',  // stop loss price (relative percentage delta)
+        'price2'    => '#10'  // take profit price (relative delta)
+      ]
+    ]);
+  }
+
+  public function sell($price, $volume) {
+    return $this->KrakenAPI->QueryPrivate('AddOrder', [
+      'pair'      => 'XBTCZEUR',
+      'type'      => 'sell', 
+      'ordertype' => 'limit', 
+      'price'     => $price, 
+      'volume'    => $volume
+    ]);
   }
 
   public function getLogs() {
